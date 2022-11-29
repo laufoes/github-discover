@@ -1,11 +1,11 @@
 import { BrowserRouter, Routes, Route } from "react-router-dom";
-import Navbar from "../components/Navbar";
+import Home from "../pages/Home";
 
 function Router() {
   return (
     <BrowserRouter>
         <Routes>
-          <Route path='/' index element={ <Navbar /> } />
+          <Route path='/' index element={ <Home /> } />
         </Routes>
     </BrowserRouter>
   )
