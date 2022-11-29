@@ -2,6 +2,11 @@ import { FaGithub } from 'react-icons/fa'
 import { Link } from 'react-router-dom'
 
 function Navbar({ title = 'Github DISCOVER'}) {
+
+    const redirectToGithub = () => {
+        window.open('https://github.com/', '_blank')
+    }
+
   return (
     <nav className='navbar mb-12 shadow-lg bg-neutral text-neutral-content'>
         <div className="container mx-auto">
@@ -13,13 +18,13 @@ function Navbar({ title = 'Github DISCOVER'}) {
             </div>
             <div className="flex-1 px-2 mx-2">
                 <div className="flex justify-end">
-                    <Link to='/' className='btn btn-ghost btn-sm rounded-btn'>
+                    <Link to='/' className='btn btn-ghost btn-sm rounded-btn mx-2'>
                         Home
                     </Link>
-                    <Link to='/about' className='btn btn-ghost btn-sm rounded-btn'>
+                    <Link to='/about' className='btn btn-ghost btn-sm rounded-btn mx-2'>
                         About
                     </Link>
-                    <Link to='/github' className='btn btn-ghost btn-sm rounded-btn'>
+                    <Link to='/' className='btn btn-ghost btn-sm rounded-btn mx-2' onClick={redirectToGithub}>
                         Github
                     </Link>
                 </div>
