@@ -1,32 +1,37 @@
-import { useEffect, useState } from 'react'
+import { useEffect, useReducer } from 'react'
+import { githubActionKind, githubReducer, initialState, UserData } from '../reducers/githubReducer'
 import UserItem from './UserItem'
 
 function UserList() {
-    const [users, setUsers] = useState<Array<object>>([])
-    const [isLoading, setIsLoading] = useState<boolean>(true)
+    const [ state, dispatch ] = useReducer(githubReducer, initialState)
 
     useEffect(() => {
         fetchUsers()
-    },)
+    })
 
     const fetchUsers = async () => {
+        // commented or else it gets stuck on a loading loop, will alter later
+        // dispatch({
+        //     type: githubActionKind.SET_LOADING,
+        // })
+        
         const res = await fetch(`${process.env.REACT_APP_GITHUB_URL}/users`, {
             headers: {
                 Authorization: `token ${process.env.REACT_APP_GITHUB_TOKEN}`
             }
         })
 
-        const data = await res.json()
-        setUsers(data)
-        console.log(typeof users)
-        console.log(users)
-        setIsLoading(false)
+        const data: UserData[] = await res.json()
+        dispatch({
+            type: githubActionKind.GET_USERS,
+            payload: data,
+        })
     }
 
-    if (!isLoading) {
+    if (!state.isLoading) {
         return (
             <div className="grid grid-cols-1 gap-8 xl:grid-cols-4 lg:grid-cols-3 md:grid-cols-2">
-                {users.map((user: any) => (
+                {state.users.map((user: any) => (
                     <UserItem key={user.id} user={user} />
                 ))}
             </div>
