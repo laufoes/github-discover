@@ -22,7 +22,7 @@ export interface UserData {
     avatar_url: string
 }
 
-export interface githubState {
+export interface GithubState {
     users: Array<UserData>,
     isLoading: boolean,
     searchUsers?: (text: string) => void,
@@ -31,10 +31,10 @@ export interface githubState {
 
 export const initialState = {
     users: [{ login: '', avatar_url: ''}],
-    isLoading: true,
+    isLoading: false,
 }
   
-  export const githubReducer = (state: githubState, action: githubActionUsers | githubActionLoading |githubActionClear): githubState => {
+  export const githubReducer = (state: GithubState, action: githubActionUsers | githubActionLoading | githubActionClear): GithubState => {
 
     switch(action.type) {
         case 'GET_USERS':
@@ -52,7 +52,7 @@ export const initialState = {
             return {
                 ...state,
                 users: initialState.users,
-                isLoading: true
+                isLoading: false
             }
         default:
             return state

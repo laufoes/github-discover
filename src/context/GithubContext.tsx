@@ -1,12 +1,12 @@
 import { ReactNode, createContext, useReducer } from 'react'
-import { githubActionKind, githubReducer, githubState, initialState } from '../reducers/githubReducer'
+import { githubActionKind, githubReducer, GithubState, initialState } from '../reducers/GithubReducer'
 
 interface githubContextProps {
     children?: ReactNode,
 }
 
 
-export const GithubContext = createContext<githubState>(initialState)    
+export const GithubContext = createContext<GithubState>(initialState)    
 GithubContext.displayName = 'Github'
 
 export const GithubContextProvider = ({ children }: githubContextProps) => {

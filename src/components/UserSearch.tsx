@@ -1,16 +1,19 @@
 import { useContext, useState } from 'react'
+import { AlertContext } from '../context/AlertContext';
 import { GithubContext } from '../context/GithubContext';
-import { githubState } from '../reducers/githubReducer';
+import { AlertState } from '../reducers/AlertReducer';
+import { GithubState } from '../reducers/GithubReducer';
 
 function UserSearch() {
     const [ text, setText ] = useState<string>('')
-    const { users, searchUsers, clearUsers } = useContext<githubState>(GithubContext);
-    
+    const { users, searchUsers, clearUsers } = useContext<GithubState>(GithubContext)
+    const { setAlert } = useContext<AlertState>(AlertContext)
+
     const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
 
         if(text === '') {
-            alert('Please enter something')
+            setAlert?.('Please enter something', 'error')
         } else {
             searchUsers?.(text)
             setText('')
@@ -18,7 +21,7 @@ function UserSearch() {
     }
 
   return (
-    <div className='grid grid-cols-1 xl:grid-cols-2 lg:grid-cols-2 md:grid-cols-2 gap-8 ml-[5%] mb-8'>
+    <div className='grid grid-cols-1 xl:grid-cols-2 lg:grid-cols-2 md:grid-cols-2 gap-8 mb-8'>
         <div>
             <form onSubmit={handleSubmit}>
                 <div className="form-contol">

@@ -1,18 +1,18 @@
 
 import { useContext } from 'react'
 import { GithubContext } from '../context/GithubContext';
-import { githubState } from '../reducers/githubReducer';
+import { GithubState } from '../reducers/GithubReducer';
 import UserItem from './UserItem'
 
 function UserList() {
-    const { users, isLoading } = useContext<githubState>(GithubContext);
+    const { users, isLoading } = useContext<GithubState>(GithubContext);
    
     if (!isLoading) {
         return (
             <div className="grid grid-cols-1 gap-8 xl:grid-cols-4 lg:grid-cols-3 md:grid-cols-2">
-                { users.map((user: any) => (
+                { users.length !== 1 ? users.map((user: any) => (
                     <UserItem key={user.id} user={user} />
-                )) }
+                )) : ''}
             </div>
         )
     } else {
