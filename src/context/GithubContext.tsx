@@ -1,6 +1,6 @@
 import { ReactNode, createContext, useReducer } from 'react'
 import { GithubState } from '../interfaces/IGithubReducer'
-import { githubReducer, initialState } from '../reducers/GithubReducer'
+import { githubReducer, initialState } from '../reducers/githubReducer'
 
 interface githubContextProps {
     children?: ReactNode,

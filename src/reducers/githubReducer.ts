@@ -1,45 +1,45 @@
 import { githubActionClear, githubActionLoading, githubActionUserAndRepos, githubActionUsers, GithubState } from "../interfaces/IGithubReducer"
 
 export const initialState = {
-    users: [{ login: '', avatar_url: ''}],
+    users: [{ login: '', avatar_url: '' }],
     user: {
         name: '',
-            type: '',
-            login: '', 
-            id: 0, 
-            avatar_url: '',
-            location: '',
-            bio: '',
-            blog: '',
-            twitter_username: '',
-            html_url: '',
-            followers: 0,
-            following: 0,
-            public_repos: 0,
-            public_gists: 0,
-            hireable: true,   
+        type: '',
+        login: '',
+        id: 0,
+        avatar_url: '',
+        location: '',
+        bio: '',
+        blog: '',
+        twitter_username: '',
+        html_url: '',
+        followers: 0,
+        following: 0,
+        public_repos: 0,
+        public_gists: 0,
+        hireable: true,
     },
     dispatch: '',
-    repos: [{ 
-        name: '', 
+    repos: [{
+        name: '',
         id: 0,
-        description: '', 
-        html_url: '', 
-        forks: 0, 
-        open_issues: 0, 
-        watchers_count: 0, 
-        stargazers_count: 0 
+        description: '',
+        html_url: '',
+        forks: 0,
+        open_issues: 0,
+        watchers_count: 0,
+        stargazers_count: 0
     }],
     isLoading: false,
 }
-  
-  export const githubReducer = (state: GithubState, action: githubActionUsers | githubActionUserAndRepos | githubActionLoading | githubActionClear ): GithubState => {
 
-    switch(action.type) {
+export const githubReducer = (state: GithubState, action: githubActionUsers | githubActionUserAndRepos | githubActionLoading | githubActionClear): GithubState => {
+
+    switch (action.type) {
         case 'GET_USERS':
             return {
                 ...state,
-                users: action.payload ,
+                users: action.payload,
                 isLoading: false,
             }
         case 'GET_USER_AND_REPOS':
