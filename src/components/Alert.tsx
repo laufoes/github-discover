@@ -1,7 +1,7 @@
 import { useContext } from 'react'
 import { MdOutlineError } from 'react-icons/md'
 import { AlertContext } from '../context/AlertContext'
-import { AlertState } from '../reducers/AlertReducer'
+import { AlertState } from '../interfaces/IAlertReducer'
 
 function Alert() {
     const { alert } = useContext<AlertState>(AlertContext)

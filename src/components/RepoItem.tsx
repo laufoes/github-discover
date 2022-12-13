@@ -1,5 +1,5 @@
 import { FaEye, FaInfo, FaLink, FaStar, FaUtensils } from 'react-icons/fa'
-import { RepoData } from "../reducers/GithubReducer"
+import { RepoData } from '../interfaces/IGithubReducer'
 
 interface RepoItemProp{
     repo: RepoData,

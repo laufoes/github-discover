@@ -1,4 +1,4 @@
-import { RepoData } from "../reducers/GithubReducer"
+import { RepoData } from "../interfaces/IGithubReducer"
 import Loading from "./Loading"
 import RepoItem from "./RepoItem"
 

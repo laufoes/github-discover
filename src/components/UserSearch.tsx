@@ -1,21 +1,26 @@
 import { useContext, useState } from 'react'
 import { AlertContext } from '../context/AlertContext';
+import { searchUsers } from '../context/GithubActions';
 import { GithubContext } from '../context/GithubContext';
-import { AlertState } from '../reducers/AlertReducer';
-import { GithubState } from '../reducers/GithubReducer';
+import { AlertState } from '../interfaces/IAlertReducer';
+import { githubActionKind, GithubState } from '../interfaces/IGithubReducer';
 
 function UserSearch() {
     const [ text, setText ] = useState<string>('')
-    const { users, searchUsers, clearUsers } = useContext<GithubState>(GithubContext)
+    const { users, dispatch } = useContext<GithubState>(GithubContext)
     const { setAlert } = useContext<AlertState>(AlertContext)
 
-    const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+    const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
 
         if(text === '') {
             setAlert?.('Please enter something', 'error')
         } else {
-            searchUsers?.(text)
+            dispatch({ type: githubActionKind.SET_LOADING })
+            
+            const users = await searchUsers?.(text)
+            dispatch({ type: githubActionKind.GET_USERS, payload: users })
+
             setText('')
         }
     }
@@ -39,7 +44,7 @@ function UserSearch() {
             </form>
         </div>
         { users.length > 0 ? <div>
-            <button className="btn-ghost btn-lg font-bold" onClick={clearUsers}>CLEAR</button>
+            <button className="btn-ghost btn-lg font-bold" onClick={() => dispatch({ type: 'CLEAR_USERS' })}>CLEAR</button>
         </div> : '' }
     </div>
   )

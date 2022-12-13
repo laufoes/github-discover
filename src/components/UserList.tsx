@@ -1,7 +1,6 @@
-
 import { useContext } from 'react'
 import { GithubContext } from '../context/GithubContext';
-import { GithubState } from '../reducers/GithubReducer';
+import { GithubState } from '../interfaces/IGithubReducer';
 import Loading from './Loading';
 import UserItem from './UserItem'
 

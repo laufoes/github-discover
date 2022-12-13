@@ -1,5 +1,6 @@
 import { ReactNode, createContext, useReducer } from 'react'
-import { alertActionKind, alertReducer, AlertState, initialState } from '../reducers/AlertReducer'
+import { alertActionKind, AlertState } from '../interfaces/IAlertReducer'
+import { alertReducer, initialState } from '../reducers/AlertReducer'
 
 interface alertContextProps {
     children?: ReactNode,

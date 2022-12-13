@@ -1,21 +1,34 @@
 import { useEffect, useContext } from 'react'
 import { useParams, Link } from 'react-router-dom'
-import { GithubState } from '../reducers/GithubReducer'
 import PageStructure from '../components/PageStructure'
 import { GithubContext } from '../context/GithubContext'
 import { FaCodepen, FaUsers, FaStore, FaUserFriends} from 'react-icons/fa'
 import Loading from '../components/Loading'
 import RepoList from '../components/RepoList'
+import { GithubState } from '../interfaces/IGithubReducer'
+import { getUser, getUserRepos } from '../context/GithubActions'
 
 
 function User() {
-    const { user, getUser, repos, getUserRepos, isLoading } = useContext<GithubState>(GithubContext)
+    const { user, repos, isLoading, dispatch } = useContext<GithubState>(GithubContext)
     let { login } = useParams()
 
     useEffect(() => {
         if(login) {
-            getUser?.(login)
-            getUserRepos?.(login)
+            dispatch({ type: 'SET_LOADING' })
+
+            const getUserData = async (login: string) => {
+                const userInfo = await getUser?.(login)
+                dispatch({ type: 'GET_USER', payload: userInfo})
+            }
+
+            const getUserRepositories = async (login: string) => {
+                const userRepoData = await getUserRepos?.(login)
+                dispatch({ type: 'GET_REPOS', payload: userRepoData})
+            }
+
+            getUserData?.(login)
+            getUserRepositories?.(login)
         }
         console.log(user)
     }, [login])
