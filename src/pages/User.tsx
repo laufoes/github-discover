@@ -5,15 +5,17 @@ import PageStructure from '../components/PageStructure'
 import { GithubContext } from '../context/GithubContext'
 import { FaCodepen, FaUsers, FaStore, FaUserFriends} from 'react-icons/fa'
 import Loading from '../components/Loading'
+import RepoList from '../components/RepoList'
 
 
 function User() {
-    const { user, getUser, isLoading } = useContext<GithubState>(GithubContext)
+    const { user, getUser, repos, getUserRepos, isLoading } = useContext<GithubState>(GithubContext)
     let { login } = useParams()
 
     useEffect(() => {
         if(login) {
             getUser?.(login)
+            getUserRepos?.(login)
         }
         console.log(user)
     }, [login])
@@ -140,6 +142,7 @@ function User() {
                             </div>
                         </div>
                     </div>
+                    <RepoList repos={repos} isLoading={isLoading} />
                 </div>
             }
         </PageStructure>

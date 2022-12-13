@@ -1,6 +1,7 @@
 export enum githubActionKind {
     GET_USERS = 'GET_USERS',
     GET_USER = 'GET_USER',
+    GET_REPOS = 'GET_REPOS',
     SET_LOADING = 'SET_LOADING',
     CLEAR_USERS = 'CLEAR_USERS'
 }
@@ -14,6 +15,12 @@ interface githubActionUser {
     type: githubActionKind.GET_USER,
     payload?: UserData,
 }
+
+interface githubActionRepos {
+    type: githubActionKind.GET_REPOS,
+    payload: RepoData[],
+}
+
 interface githubActionLoading {
     type: githubActionKind.SET_LOADING
 }
@@ -45,10 +52,23 @@ export interface UsersData {
     avatar_url: string
 }
 
+export interface RepoData {
+    name: string,
+    id: number,
+    description: string,
+    html_url: string,
+    forks: number,
+    open_issues: number,
+    watchers_count: number,
+    stargazers_count: number
+}
+
 export interface GithubState {
     users: Array<UsersData>,
     user?: UserData,
+    repos: Array<RepoData>,
     isLoading: boolean,
+    getUserRepos?: (login: string) => void,
     searchUsers?: (text: string) => void,
     clearUsers?: () => void,
     getUser?: (login: string) => void
@@ -73,10 +93,20 @@ export const initialState = {
             public_gists: 0,
             hireable: true,   
     },
+    repos: [{ 
+        name: '', 
+        id: 0,
+        description: '', 
+        html_url: '', 
+        forks: 0, 
+        open_issues: 0, 
+        watchers_count: 0, 
+        stargazers_count: 0 
+    }],
     isLoading: false,
 }
   
-  export const githubReducer = (state: GithubState, action: githubActionUsers | githubActionUser | githubActionLoading | githubActionClear ): GithubState => {
+  export const githubReducer = (state: GithubState, action: githubActionUsers | githubActionUser | githubActionLoading | githubActionClear | githubActionRepos ): GithubState => {
 
     switch(action.type) {
         case 'GET_USERS':
@@ -90,6 +120,12 @@ export const initialState = {
                 ...state,
                 user: action.payload,
                 isLoading: false,
+            }
+        case 'GET_REPOS': 
+            return {
+                ...state,
+                repos: action.payload,
+                isLoading: false
             }
         case 'SET_LOADING':
             return {

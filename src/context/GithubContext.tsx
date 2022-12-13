@@ -11,13 +11,17 @@ GithubContext.displayName = 'Github'
 export const GithubContextProvider = ({ children }: githubContextProps) => {
     const [ state, dispatch ] = useReducer(githubReducer, initialState)
 
-    const searchUsers = async (text : string) => {
+    const setLoading = () => {
         dispatch({
             type: githubActionKind.SET_LOADING,
         })
+    }
+
+    const searchUsers = async (text : string) => {
+        setLoading()
 
         const params = new URLSearchParams({
-            q: text
+            q: text,
         })
         
         const res = await fetch(`${process.env.REACT_APP_GITHUB_URL}/search/users?${params}`, {
@@ -33,11 +37,31 @@ export const GithubContextProvider = ({ children }: githubContextProps) => {
         })
     }
 
+    const getUserRepos = async (login : string) => {
+        setLoading()
+
+        const params = new URLSearchParams({
+            sort: 'created',
+            per_page: '10',
+        })
+        
+        const res = await fetch(`${process.env.REACT_APP_GITHUB_URL}/users/${login}/repos?${params}`, {
+            headers: {
+                Authorization: `token ${process.env.REACT_APP_GITHUB_TOKEN}`
+            }
+        })
+
+        const data = await res.json()
+
+        dispatch({
+            type: githubActionKind.GET_REPOS,
+            payload: data,
+        })
+    }
+
 
     const getUser = async (login : string) => {
-        dispatch({
-            type: githubActionKind.SET_LOADING,
-        })
+        setLoading()
 
         const res = await fetch(`${process.env.REACT_APP_GITHUB_URL}/users/${login}`, {
             headers: {
@@ -77,7 +101,13 @@ export const GithubContextProvider = ({ children }: githubContextProps) => {
     }
 
     return (
-        <GithubContext.Provider value={{ users: state.users, isLoading: state.isLoading, user: state.user, getUser, searchUsers, clearUsers }}>
+        <GithubContext.Provider value={{ 
+            ...state,
+            getUser, 
+            getUserRepos, 
+            searchUsers, 
+            clearUsers 
+            }}>
             { children }
         </GithubContext.Provider>
     )
