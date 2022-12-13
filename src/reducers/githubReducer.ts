@@ -1,4 +1,4 @@
-import { githubActionClear, githubActionLoading, githubActionRepos, githubActionUser, githubActionUsers, GithubState } from "../interfaces/IGithubReducer"
+import { githubActionClear, githubActionLoading, githubActionUserAndRepos, githubActionUsers, GithubState } from "../interfaces/IGithubReducer"
 
 export const initialState = {
     users: [{ login: '', avatar_url: ''}],
@@ -33,7 +33,7 @@ export const initialState = {
     isLoading: false,
 }
   
-  export const githubReducer = (state: GithubState, action: githubActionUsers | githubActionUser | githubActionLoading | githubActionClear | githubActionRepos ): GithubState => {
+  export const githubReducer = (state: GithubState, action: githubActionUsers | githubActionUserAndRepos | githubActionLoading | githubActionClear ): GithubState => {
 
     switch(action.type) {
         case 'GET_USERS':
@@ -42,17 +42,12 @@ export const initialState = {
                 users: action.payload ,
                 isLoading: false,
             }
-        case 'GET_USER':
+        case 'GET_USER_AND_REPOS':
             return {
                 ...state,
-                user: action.payload,
+                user: action.payload.user,
+                repos: action.payload.repos,
                 isLoading: false,
-            }
-        case 'GET_REPOS': 
-            return {
-                ...state,
-                repos: action.payload,
-                isLoading: false
             }
         case 'SET_LOADING':
             return {

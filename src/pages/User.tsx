@@ -6,8 +6,7 @@ import { FaCodepen, FaUsers, FaStore, FaUserFriends} from 'react-icons/fa'
 import Loading from '../components/Loading'
 import RepoList from '../components/RepoList'
 import { GithubState } from '../interfaces/IGithubReducer'
-import { getUser, getUserRepos } from '../context/GithubActions'
-
+import { getUserAndRepos } from '../context/GithubActions'
 
 function User() {
     const { user, repos, isLoading, dispatch } = useContext<GithubState>(GithubContext)
@@ -18,17 +17,11 @@ function User() {
             dispatch({ type: 'SET_LOADING' })
 
             const getUserData = async (login: string) => {
-                const userInfo = await getUser?.(login)
-                dispatch({ type: 'GET_USER', payload: userInfo})
-            }
-
-            const getUserRepositories = async (login: string) => {
-                const userRepoData = await getUserRepos?.(login)
-                dispatch({ type: 'GET_REPOS', payload: userRepoData})
+                const userInfo = await getUserAndRepos?.(login)
+                dispatch({ type: 'GET_USER_AND_REPOS', payload: userInfo})
             }
 
             getUserData?.(login)
-            getUserRepositories?.(login)
         }
         console.log(user)
     }, [login])

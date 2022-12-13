@@ -1,7 +1,6 @@
 export enum githubActionKind {
     GET_USERS = 'GET_USERS',
-    GET_USER = 'GET_USER',
-    GET_REPOS = 'GET_REPOS',
+    GET_USER_AND_REPOS = 'GET_USER_AND_REPOS',
     SET_LOADING = 'SET_LOADING',
     CLEAR_USERS = 'CLEAR_USERS'
 }
@@ -11,14 +10,9 @@ export interface githubActionUsers {
     payload: UsersData[],
 }
 
-export interface githubActionUser {
-    type: githubActionKind.GET_USER,
-    payload?: UserData,
-}
-
-export interface githubActionRepos {
-    type: githubActionKind.GET_REPOS,
-    payload: RepoData[],
+export interface githubActionUserAndRepos {
+    type: githubActionKind.GET_USER_AND_REPOS,
+    payload: UserAndRepoData,
 }
 
 export interface githubActionLoading {
@@ -61,6 +55,11 @@ export interface RepoData {
     open_issues: number,
     watchers_count: number,
     stargazers_count: number
+}
+
+export interface UserAndRepoData {
+    user: UserData,
+    repos: RepoData[],
 }
 
 export interface GithubState {
